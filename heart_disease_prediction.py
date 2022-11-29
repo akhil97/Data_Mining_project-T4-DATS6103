@@ -39,4 +39,12 @@ plt.ylabel("Age (in years)")
 
 
 #%% Does having high BP have an effect on heart disease?
+print(df['HighBP'].unique().tolist())
 
+#Fraction of values with High BP
+print("Percentage of people with low BP: ", (len(df[df['HighBP'] == 0])/len(df))*100)
+print("Percentage of people with high BP: ",(len(df[df['HighBP'] == 1])/len(df))*100)
+
+
+
+# %%
