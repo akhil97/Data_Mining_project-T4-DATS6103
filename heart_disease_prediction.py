@@ -20,7 +20,7 @@ print(df['HeartDiseaseorAttack'].unique().tolist())
 print("Minimum age:", min(df['Age']))
 print("Maximum age:", max(df['Age']))
 
-#Fraction of values 
+#Fraction of values with heart disease 
 print("Percentage of people with no heart disease: ", (len(df[df['HeartDiseaseorAttack'] == 0])/len(df))*100)
 print("Percentage of people with a heart disease: ",(len(df[df['HeartDiseaseorAttack'] == 1])/len(df))*100)
 
@@ -39,4 +39,12 @@ plt.ylabel("Age (in years)")
 
 
 #%% Does having high BP have an effect on heart disease?
+print(df['HighBP'].unique().tolist())
 
+#Fraction of values with High BP
+print("Percentage of people with low BP: ", (len(df[df['HighBP'] == 0])/len(df))*100)
+print("Percentage of people with high BP: ",(len(df[df['HighBP'] == 1])/len(df))*100)
+
+
+
+# %%
