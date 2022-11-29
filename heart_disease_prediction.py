@@ -45,6 +45,13 @@ print(df['HighBP'].unique().tolist())
 print("Percentage of people with low BP: ", (len(df[df['HighBP'] == 0])/len(df))*100)
 print("Percentage of people with high BP: ",(len(df[df['HighBP'] == 1])/len(df))*100)
 
+#Frequency table
+my_crosstab = pd.crosstab(index=df["HeartDiseaseorAttack"], columns=df["HighBP"], margins=True)   # Include row and column totals
+print(my_crosstab)
+
+# Catplot for HighBP vs Heart Disease
+sns.catplot(x='HighBP', hue='HeartDiseaseorAttack', data=df, kind='count')
+plt.title("HighBP vs Heart Disease")
 
 
 # %%
