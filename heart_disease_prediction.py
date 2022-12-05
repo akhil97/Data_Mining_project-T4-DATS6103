@@ -14,7 +14,17 @@ print("Number of rows in dataset:", len(df))
 #%% Checking for any null values
 df.isnull().sum()
 
+#%%% 
+df.describe()
 
+#%% data statistics
+print("The unique values in each feature are: {}".format(df.nunique()))
+
+#%% How the target variable looks like
+sns.countplot(x = df["HeartDiseaseorAttack"], data = df).set(title = "Countplot of the target variable")
+
+print('The number of no heart disease or attack in the dataset are: ', round(df['HeartDiseaseorAttack'].value_counts()[0]/len(df) * 100,2), '% of the dataset')
+print('The number of heart disease or attack in the dataset are: ', round(df['HeartDiseaseorAttack'].value_counts()[1]/len(df) * 100,2), '% of the dataset')
 # %% Does age have an effect on heart disease?
 print(df['HeartDiseaseorAttack'].unique().tolist())
 print("Minimum age:", min(df['Age']))
@@ -54,4 +64,26 @@ sns.catplot(x='HighBP', hue='HeartDiseaseorAttack', data=df, kind='count')
 plt.title("HighBP vs Heart Disease")
 
 
+# %% Does heavy alcohol consumption cause heart attack or disease?
+print(df['HvyAlcoholConsump'].unique().tolist())
+
+# Fraction of the values with Heavy Alcohol Consumption
+print("Percentage of people who do not consume alcohol hevaily: ", (len(df[df['HvyAlcoholConsump'] == 0])/len(df))*100)
+print("Percentage of people who do consume alcohol heavily: ",(len(df[df['HvyAlcoholConsump'] == 1])/len(df))*100)
+
+# Frequency tab;e
+alcohol_freq = pd.crosstab(index = df["HeartDiseaseorAttack"],
+                            columns = df["HvyAlcoholConsump"],
+                            margins = True)
+print(alcohol_freq)
+
+# catplot for HvyAlcoholConsump vs HeartDiseaseorAttack
+sns.catplot(x = "HvyAlcoholConsump",
+            hue = "HeartDiseaseorAttack",
+            data = df,
+            kind = "count")
+plt.title("HvyAlcoholConsump vs HeartDiseaseorAttack")
+
+#%%%[markdown]
+# From all the above information we can see that people who consume alcohol heavily and have a heart attack are only 848 through out the dataset which clearly indicates that the dataset is imbalanced.
 # %%
