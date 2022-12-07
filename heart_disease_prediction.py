@@ -209,3 +209,16 @@ fig.update_layout(
 )
 fig.show()
 
+# %%
+# Plot of counts for physical activity
+df["PhysActivity"].value_counts().plot(kind= "bar")
+plt.xlabel("Physical Activity")
+plt.ylabel("Count")
+plt.title("Counts of Physical Activity")
+
+# %%
+# Plot of Physical Activity and Heart Disease
+sns.catplot(x = "PhysActivity", hue="HeartDiseaseorAttack", data=df, kind="count")
+plt.xlabel("Physical Activity")
+plt.ylabel("Count")
+plt.title("Heart Disease versus Physical Activity")
