@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
 
- #%% Reading the dataset
+#%% Reading the dataset
 df = pd.read_csv('heart_disease_health_indicators_BRFSS2015.csv')
 print("First 5 rows:", df.head())
 print("Information about dataset:", df.info())
@@ -27,6 +27,7 @@ sns.countplot(x = df["HeartDiseaseorAttack"], data = df).set(title = "Countplot 
 
 print('The number of no heart disease or attack in the dataset are: ', round(df['HeartDiseaseorAttack'].value_counts()[0]/len(df) * 100,2), '% of the dataset')
 print('The number of heart disease or attack in the dataset are: ', round(df['HeartDiseaseorAttack'].value_counts()[1]/len(df) * 100,2), '% of the dataset')
+
 # %% Does age have an effect on heart disease?
 print(df['HeartDiseaseorAttack'].unique().tolist())
 print("Minimum age:", min(df['Age']))
@@ -48,8 +49,6 @@ plt.title("Age vs Heart Disease")
 plt.xlabel("Heart Disease")
 plt.ylabel("Age (in years)")
 
-
-
 #%% Does having high BP have an effect on heart disease?
 print(df['HighBP'].unique().tolist())
 
@@ -65,15 +64,18 @@ print(my_crosstab)
 sns.catplot(x='HighBP', hue='HeartDiseaseorAttack', data=df, kind='count')
 plt.title("HighBP vs Heart Disease")
 
-
 # %% Does heavy alcohol consumption cause heart attack or disease?
-print(df['HvyAlcoholConsump'].unique().tolist())
+print("The unique values under Heavy Alcohol Consumption are:", df['HvyAlcoholConsump'].unique().tolist())
 
-# Fraction of the values with Heavy Alcohol Consumption
+# Countplot for feature heavy alcohol consumption
+sns.countplot(x = df["HvyAlcoholConsump"], 
+              data = df).set(title = "Countplot of feature HvyAlcoholConsump")
+
+# Fraction of the values related to the feature heavy alcohol consumption
 print("Percentage of people who do not consume alcohol hevaily: ", (len(df[df['HvyAlcoholConsump'] == 0])/len(df))*100)
 print("Percentage of people who do consume alcohol heavily: ",(len(df[df['HvyAlcoholConsump'] == 1])/len(df))*100)
 
-# Frequency tab;e
+# Frequency table
 alcohol_freq = pd.crosstab(index = df["HeartDiseaseorAttack"],
                             columns = df["HvyAlcoholConsump"],
                             margins = True)
@@ -88,6 +90,57 @@ plt.title("HvyAlcoholConsump vs HeartDiseaseorAttack")
 
 #%%%[markdown]
 # From all the above information we can see that people who consume alcohol heavily and have a heart attack are only 848 through out the dataset which clearly indicates that the dataset is imbalanced.
+
+#%%
+# Does having variable income cause heart attack or disease?
+print("The unique values under the feature Income are: ", df['Income'].unique().tolist())
+
+# There are a total of 8 different categories in the column Income
+# So the categories represent the following:
+# 1.0 -> less than $10,000
+# 2.0 -> $20,000
+# 3.0 -> $30,000
+# 4.0 -> $40,000
+# 5.0 -> $50,000
+# 6.0 -> $60,000
+# 7.0 -> $70,000
+# 8.0 -> $75,000 more
+
+# Countplot for the feature income
+sns.countplot(x = df["Income"], 
+              data = df,
+             palette = "rocket").set(title = "Countplot of feature Income")
+
+# Fraction of the values of the feature Income
+print("Percentage of people who have income below $10,000: ", (len(df[df['Income'] == 1.0])/len(df))*100)
+print("Percentage of people who have income of $20,000: ",(len(df[df['Income'] == 2.0])/len(df))*100)
+print("Percentage of people who have income of $30,000: ", (len(df[df['Income'] == 3.0])/len(df))*100)
+print("Percentage of people who have income of $40,000: ",(len(df[df['Income'] == 4.0])/len(df))*100)
+print("Percentage of people who have income of $50,000: ", (len(df[df['Income'] == 5.0])/len(df))*100)
+print("Percentage of people who have income of $60,000: ",(len(df[df['Income'] == 6.0])/len(df))*100)
+print("Percentage of people who have income of $70,000: ", (len(df[df['Income'] == 7.0])/len(df))*100)
+print("Percentage of people who have income of more than $75,000: ",(len(df[df['Income'] == 8.0])/len(df))*100)
+
+# Frequency table
+income_freq = pd.crosstab(index = df["HeartDiseaseorAttack"],
+                            columns = df["Income"],
+                            margins = True)
+print(income_freq)
+
+# catplot for HvyAlcoholConsump vs HeartDiseaseorAttack
+sns.catplot(x = "Income",
+            hue = "HeartDiseaseorAttack",
+            data = df,
+            kind = "count")
+plt.title("Income vs HeartDiseaseorAttack")
+
+#%%
+# Checking to see if Heavy alcohol consumption has an impact on income
+sns.countplot(data = df, 
+              x = "HvyAlcoholConsump", 
+              hue ='Income',
+             palette = "rocket")
+
 # %%
 
 #How BMI can affect the health of the heart or heart condition? 
@@ -155,3 +208,4 @@ fig.update_layout(
     bargroupgap=0.1
 )
 fig.show()
+
