@@ -222,3 +222,26 @@ sns.catplot(x = "PhysActivity", hue="HeartDiseaseorAttack", data=df, kind="count
 plt.xlabel("Physical Activity")
 plt.ylabel("Count")
 plt.title("Heart Disease versus Physical Activity")
+
+
+# %%
+#EDA for high cholesterol
+
+
+# Plot of counts for high cholesterol
+df["CholCheck"].value_counts().plot(kind= "bar")
+plt.xlabel("High Cholesterol")
+plt.ylabel("Count")
+plt.title("Counts of High Cholesterol")
+
+# %%
+# Plot of High Cholesterol and Heart Disease
+sns.catplot(x = "CholCheck", hue="HeartDiseaseorAttack", data=df, kind="count")
+plt.xlabel("High Cholesterol")
+ply.ylabel("Count")
+plt.title("Heart Disease versus High Cholesterol")
+
+# %%
+# ttest of heart disease for different levels of cholesterol
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["CholCheck"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["CholCheck"] == 1], group2_name= "1")
