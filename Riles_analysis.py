@@ -2,7 +2,7 @@
 import pandas as pd
 from statsmodels.formula.api import ols
 #%%
-heart_data = pd.read_csv(r"C:\Users\riles\Desktop\heart_disease_health_indicators_BRFSS2015.csv")
+heart_data = pd.read_csv(r"C:\Users\riles\Desktop\Graduate School\Data Mining\Final Project\heart_disease_health_indicators_BRFSS2015.csv")
 heart_data.head(5)
 # %%
 phyact_model = ols(formula='HeartDiseaseorAttack ~ PhysActivity', data=heart_data)
