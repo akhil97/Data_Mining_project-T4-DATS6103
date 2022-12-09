@@ -14,13 +14,25 @@ print("Columns of the dataset:", df.columns.tolist())
 print("Number of rows in dataset:", len(df))
 
 #%% Checking for any null values
-df.isnull().sum()
+print("To check if any null values are present in the dataset", df.isnull().sum())
 
 #%%% 
 df.describe()
 
 #%% data statistics
 print("The unique values in each feature are: {}".format(df.nunique()))
+
+#%%
+# Confusion matrix to check for correlation
+correlation_matrix = df.corr()
+k = 22 # number of variables for heatmap
+cols = correlation_matrix.nlargest(k,'HeartDiseaseorAttack')['HeartDiseaseorAttack'].index
+cm = np.corrcoef(df[cols].values.T)
+sns.set(font_scale=1)
+fig, ax = plt.subplots(figsize=(18,18))  # Sample figsize in inches
+hm = sns.heatmap(cm, cbar=True, annot=True, square=True, fmt='.01f', annot_kws={'size': 10}, yticklabels=cols.values, xticklabels=cols.values,ax=ax)
+plt.title("Correlation Matrix")
+plt.show()
 
 #%% How the target variable looks like
 sns.countplot(x = df["HeartDiseaseorAttack"], data = df).set(title = "Countplot of the target variable")
