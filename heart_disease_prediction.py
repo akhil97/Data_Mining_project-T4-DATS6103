@@ -62,6 +62,12 @@ plt.title("Age vs Heart Disease")
 plt.xlabel("Heart Disease")
 plt.ylabel("Age (in years)")
 
+# %%
+# ttest of means of age for having heart disease or not
+rp.ttest(group1= df["Age"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["Age"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
+
+
 #%% Does having high BP have an effect on heart disease?
 print(df['HighBP'].unique().tolist())
 
