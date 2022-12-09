@@ -5,6 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
+import researchpy as rp
 
 #%% Reading the dataset
 df = pd.read_csv('heart_disease_health_indicators_BRFSS2015.csv')
@@ -234,6 +235,11 @@ sns.catplot(x = "PhysActivity", hue="HeartDiseaseorAttack", data=df, kind="count
 plt.xlabel("Physical Activity")
 plt.ylabel("Count")
 plt.title("Heart Disease versus Physical Activity")
+
+# %%
+# ttest of heart disease for different levels of physical activity
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["PhysActivity"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["PhysActivity"] == 1], group2_name= "1")
 
 
 # %%
