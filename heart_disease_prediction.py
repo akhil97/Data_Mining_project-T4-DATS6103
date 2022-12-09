@@ -107,6 +107,11 @@ sns.catplot(x = "HvyAlcoholConsump",
             kind = "count")
 plt.title("HvyAlcoholConsump vs HeartDiseaseorAttack")
 
+# %%
+# ttest of heart disease for different levels of alcohol consump
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 1], group2_name= "1")
+
 #%%%[markdown]
 # From all the above information we can see that people who consume alcohol heavily and have a heart attack are only 848 through out the dataset which clearly indicates that the dataset is imbalanced.
 
