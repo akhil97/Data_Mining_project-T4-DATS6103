@@ -108,7 +108,7 @@ sns.catplot(x = "HvyAlcoholConsump",
 plt.title("HvyAlcoholConsump vs HeartDiseaseorAttack")
 
 # %%
-# ttest of heart disease for different levels of alcohol consump
+# ttest of heart disease for different levels of alcohol consumption
 rp.ttest(group1= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 0], group1_name= "0",
         group2= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 1], group2_name= "1")
 
@@ -157,6 +157,11 @@ sns.catplot(x = "Income",
             data = df,
             kind = "count")
 plt.title("Income vs HeartDiseaseorAttack")
+
+# %%
+# ttest of income level for having heart disease or not
+rp.ttest(group1= df["Income"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["Income"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
 
 #%%
 # Checking to see if Heavy alcohol consumption has an impact on income
