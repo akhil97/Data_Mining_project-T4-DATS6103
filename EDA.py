@@ -239,6 +239,20 @@ fig.update_layout(
 fig.show()
 
 # %%
+# ttest of heart disease for eating vegetables or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Veggies"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Veggies"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for eating fruits or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Fruits"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Fruits"] == 1], group2_name= "1")
+
+
+# %%
+#EDA for physical activity
+
+
 # Plot of counts for physical activity
 df["PhysActivity"].value_counts().plot(kind= "bar")
 plt.xlabel("Physical Activity")
