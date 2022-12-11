@@ -250,15 +250,16 @@ plt.title("Heart Disease versus Physical Activity")
 
 # %%
 #EDA for high cholesterol
+
 # Plot of counts for high cholesterol
-df["CholCheck"].value_counts().plot(kind= "bar")
+df["HighChol"].value_counts().plot(kind= "bar")
 plt.xlabel("High Cholesterol")
 plt.ylabel("Count")
 plt.title("Counts of High Cholesterol")
 
 # %%
 # Plot of High Cholesterol and Heart Disease
-sns.catplot(x = "CholCheck", hue="HeartDiseaseorAttack", data=df, kind="count")
+sns.catplot(x = "HighChol", hue="HeartDiseaseorAttack", data=df, kind="count")
 plt.xlabel("High Cholesterol")
 plt.ylabel("Count")
 plt.title("Heart Disease versus High Cholesterol")
