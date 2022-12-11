@@ -63,11 +63,6 @@ plt.title("Age vs Heart Disease")
 plt.xlabel("Heart Disease")
 plt.ylabel("Age (in years)")
 
-# %%
-# ttest of means of age for having heart disease or not
-rp.ttest(group1= df["Age"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
-        group2= df["Age"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
-
 
 #%% Does having high BP have an effect on heart disease?
 print(df['HighBP'].unique().tolist())
@@ -110,10 +105,6 @@ sns.catplot(x = "HvyAlcoholConsump",
             kind = "count")
 plt.title("HvyAlcoholConsump vs HeartDiseaseorAttack")
 
-# %%
-# ttest of heart disease for different levels of alcohol consumption
-rp.ttest(group1= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 0], group1_name= "0",
-        group2= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 1], group2_name= "1")
 
 #%%%[markdown]
 # From all the above information we can see that people who consume alcohol heavily and have a heart attack are only 848 through out the dataset which clearly indicates that the dataset is imbalanced.
@@ -161,10 +152,6 @@ sns.catplot(x = "Income",
             kind = "count")
 plt.title("Income vs HeartDiseaseorAttack")
 
-# %%
-# ttest of income level for having heart disease or not
-rp.ttest(group1= df["Income"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
-        group2= df["Income"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
 
 #%%
 # Checking to see if Heavy alcohol consumption has an impact on income
@@ -243,16 +230,6 @@ fig.update_layout(
 )
 fig.show()
 
-# %%
-# ttest of heart disease for eating vegetables or not
-rp.ttest(group1= df["HeartDiseaseorAttack"][df["Veggies"] == 0], group1_name= "0",
-        group2= df["HeartDiseaseorAttack"][df["Veggies"] == 1], group2_name= "1")
-
-# %%
-# ttest of heart disease for eating fruits or not
-rp.ttest(group1= df["HeartDiseaseorAttack"][df["Fruits"] == 0], group1_name= "0",
-        group2= df["HeartDiseaseorAttack"][df["Fruits"] == 1], group2_name= "1")
-
 
 # %%
 #EDA for physical activity
@@ -271,11 +248,6 @@ plt.xlabel("Physical Activity")
 plt.ylabel("Count")
 plt.title("Heart Disease versus Physical Activity")
 
-# %%
-# ttest of heart disease for different levels of physical activity
-rp.ttest(group1= df["HeartDiseaseorAttack"][df["PhysActivity"] == 0], group1_name= "0",
-        group2= df["HeartDiseaseorAttack"][df["PhysActivity"] == 1], group2_name= "1")
-
 
 # %%
 #EDA for high cholesterol
@@ -292,10 +264,6 @@ plt.xlabel("High Cholesterol")
 plt.ylabel("Count")
 plt.title("Heart Disease versus High Cholesterol")
 
-# %%
-# ttest of heart disease for different levels of cholesterol
-rp.ttest(group1= df["HeartDiseaseorAttack"][df["CholCheck"] == 0], group1_name= "0",
-        group2= df["HeartDiseaseorAttack"][df["CholCheck"] == 1], group2_name= "1")
 
 #%%
 #Smoker vs HeartDiseaseorAttack
