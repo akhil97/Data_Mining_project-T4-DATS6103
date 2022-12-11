@@ -58,8 +58,7 @@ plt.xlabel("Age (in years)")
 plt.ylabel("Count")
 
 # Barplot of Age vs Heart Disease
-sns.barplot(ax = axes[1], x = 'HeartDiseaseorAttack', y = 'Age', data = df)
-plt.title("Age vs Heart Disease")
+sns.boxplot(ax = axes[1], x = 'HeartDiseaseorAttack', y = 'Age', data = df, palette = "rocket").set(title = "Age vs Heart disease")
 plt.xlabel("Heart Disease")
 plt.ylabel("Age (in years)")
 
