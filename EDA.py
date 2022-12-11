@@ -354,3 +354,111 @@ for i,column in enumerate(catcol[1:]):
     sns.countplot(data=df, x=column, hue='HeartDiseaseorAttack', palette="rocket")
     plt.title(f"{column}")
     plt.tight_layout()
+
+
+# T-TESTS
+
+# %%
+# ttest of heart disease for having high blood pressure or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["HighBP"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["HighBP"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for having high cholesterol or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["HighChol"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["HighChol"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for different levels of CholCheck
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["CholCheck"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["CholCheck"] == 1], group2_name= "1")
+
+# %%
+# ttest of BMI for having heart disease or not
+rp.ttest(group1= df["BMI"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["BMI"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for being a smoker or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Smoker"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Smoker"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for having a stroke or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Stroke"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Stroke"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for having diabetes or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Diabetes"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Diabetes"] == 2], group2_name= "1")
+
+# %%
+# ttest of heart disease for different levels of physical activity
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["PhysActivity"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["PhysActivity"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for eating vegetables or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Veggies"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Veggies"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for eating fruits or not
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Fruits"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Fruits"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for different levels of AnyHealthcare
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["AnyHealthcare"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["AnyHealthcare"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for different levels of NoDocbcCost
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["NoDocbcCost"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["NoDocbcCost"] == 1], group2_name= "1")
+
+# %%
+# ttest of GenHlth for having heart disease or not
+rp.ttest(group1= df["GenHlth"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["GenHlth"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
+
+# %%
+# ttest of MentHlth for having heart disease or not
+rp.ttest(group1= df["MentHlth"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["MentHlth"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
+
+# %%
+# ttest of PhysHlth for having heart disease or not
+rp.ttest(group1= df["PhysHlth"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["PhysHlth"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for different levels of DiffWalk
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["DiffWalk"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["DiffWalk"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for each sex
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["Sex"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["Sex"] == 1], group2_name= "1")
+
+# %%
+# ttest of means of age for having heart disease or not
+rp.ttest(group1= df["Age"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["Age"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
+
+# %%
+# ttest of heart disease for different levels of alcohol consumption
+rp.ttest(group1= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 0], group1_name= "0",
+        group2= df["HeartDiseaseorAttack"][df["HvyAlcoholConsump"] == 1], group2_name= "1")
+
+# %%
+# ttest of education level for having heart disease or not
+rp.ttest(group1= df["Education"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["Education"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
+
+# %%
+# ttest of income level for having heart disease or not
+rp.ttest(group1= df["Income"][df["HeartDiseaseorAttack"] == 0], group1_name= "0",
+        group2= df["Income"][df["HeartDiseaseorAttack"] == 1], group2_name= "1")
