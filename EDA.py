@@ -1,4 +1,5 @@
 #%%
+#importing the necessary libraries
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -76,7 +77,9 @@ print("Percentage of people with low BP: ", (len(df[df['HighBP'] == 0])/len(df))
 print("Percentage of people with high BP: ",(len(df[df['HighBP'] == 1])/len(df))*100)
 
 #Frequency table
-my_crosstab = pd.crosstab(index=df["HeartDiseaseorAttack"], columns=df["HighBP"], margins=True)   # Include row and column totals
+my_crosstab = pd.crosstab(index=df["HeartDiseaseorAttack"], 
+                        columns=df["HighBP"], 
+                        margins=True)   # Include row and column totals
 print(my_crosstab)
 
 # Catplot for HighBP vs Heart Disease
@@ -183,7 +186,9 @@ print(bmi_freq)
 sns.histplot(data = df, x='BMI', hue='HeartDiseaseorAttack', multiple="stack", binwidth=3)
 
 #Histogram for the BMI vs HeartDiseaseorAttack based on gender
-fig = px.histogram(df, x="BMI", color="Sex", pattern_shape="HeartDiseaseorAttack")
+fig = px.histogram(df, x="BMI", 
+                color="Sex", 
+                pattern_shape="HeartDiseaseorAttack")
 fig.update_layout(yaxis_range=[-1000,25000])
 fig.show()
 
@@ -274,8 +279,6 @@ rp.ttest(group1= df["HeartDiseaseorAttack"][df["PhysActivity"] == 0], group1_nam
 
 # %%
 #EDA for high cholesterol
-
-
 # Plot of counts for high cholesterol
 df["CholCheck"].value_counts().plot(kind= "bar")
 plt.xlabel("High Cholesterol")
@@ -286,10 +289,68 @@ plt.title("Counts of High Cholesterol")
 # Plot of High Cholesterol and Heart Disease
 sns.catplot(x = "CholCheck", hue="HeartDiseaseorAttack", data=df, kind="count")
 plt.xlabel("High Cholesterol")
-ply.ylabel("Count")
+plt.ylabel("Count")
 plt.title("Heart Disease versus High Cholesterol")
 
 # %%
 # ttest of heart disease for different levels of cholesterol
 rp.ttest(group1= df["HeartDiseaseorAttack"][df["CholCheck"] == 0], group1_name= "0",
         group2= df["HeartDiseaseorAttack"][df["CholCheck"] == 1], group2_name= "1")
+
+#%%
+#Smoker vs HeartDiseaseorAttack
+sns.catplot(x='Smoker', hue='HeartDiseaseorAttack', data=df, kind='count')
+plt.title("Smoking vs Heart Disease")
+
+#As we can see here the person who dont smoke have good chance of not getting any heart disease but for the person who smokes graph shows the chance of not getting 
+# heart disease decreases and also the the chance of getting heart disease increases with respect to the persone who dont smoke but still can get the heart disease.
+
+#%%
+#Smoker vs Sex
+sns.countplot(x='Sex', data=df, hue='Smoker')
+
+#Here we can see that the sex=0 have more number of smokers and less number of non smoker whereas the sex=1 have equal number of smokers and non smokers. 
+# Also the smokers are more for sex=1 than sex=0.
+
+#So now we are checking the gender wise chance of getting heart disease.
+
+#%%
+#Sex vs HeartDiseaseorAttack
+sns.countplot(x='Sex',data=df, hue='HeartDiseaseorAttack')
+
+#As we saw in previous plot that the sex=1 have more number of smokers, and according to the current plot we can see the chance of getting heart disease for sex=1 is more than that of sex=0. 
+# So we can say that smoking can increase of getting heart disease which we can clearly see in below plot.
+
+#Smoker vs HeartDiseaseorAttack
+sns.countplot(x='Smoker',data=df, hue='HeartDiseaseorAttack')
+
+#%%
+#Now lets see plot between Diabetes and HeartDiseaseorAttack
+#Diabetes vs HeartDiseaseorAttack
+sns.catplot(x='Diabetes', hue='HeartDiseaseorAttack', data=df, kind='count')
+plt.title("Diabetes vs Heart Disease")
+
+#%%
+#Next lets see the plot between Physical Activities vs HeartDiseaseorAttack
+#PhysActivity vs HeartDiseaseorAttack
+sns.countplot(x='PhysActivity', data=df, hue='HeartDiseaseorAttack')
+
+#As plot shows, person involved in any type of physical activity have better chance of not getting any hear disease than the person who is not doing any physical activity. 
+# But it also increase the chance of getting heart disease compared to the person who is not doing any physical activity.
+
+#%%
+#Plot for all the variables vs HeartDiseaseorAttack
+
+catcol = ['HighBP', 'HighChol', 'CholCheck',
+       'Smoker', 'Stroke', 'Diabetes', 'PhysActivity', 'Fruits', 'Veggies',
+       'HvyAlcoholConsump', 'AnyHealthcare', 'NoDocbcCost', 'GenHlth',
+       'DiffWalk', 'Sex', 'Education',
+       'Income']
+
+plt.figure(figsize=(15,50))
+for i,column in enumerate(catcol[1:]):
+    plt.subplot(len(catcol), 2, i+1)
+    plt.suptitle("Plot Value Count VS HeartAttack", fontsize=20, x=0.5, y=1)
+    sns.countplot(data=df, x=column, hue='HeartDiseaseorAttack', palette="rocket")
+    plt.title(f"{column}")
+    plt.tight_layout()
