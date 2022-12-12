@@ -47,10 +47,6 @@ print(df['HeartDiseaseorAttack'].unique().tolist())
 print("Minimum age:", min(df['Age']))
 print("Maximum age:", max(df['Age']))
 
-#Fraction of values with heart disease 
-print("Percentage of people with no heart disease: ", (len(df[df['HeartDiseaseorAttack'] == 0])/len(df))*100)
-print("Percentage of people with a heart disease: ",(len(df[df['HeartDiseaseorAttack'] == 1])/len(df))*100)
-
 # Distribution of Age
 fig, axes = plt.subplots(2, figsize=(20, 30))
 sns.histplot(ax = axes[0] ,data = df, x='Age')
@@ -61,6 +57,10 @@ plt.ylabel("Count")
 sns.boxplot(ax = axes[1], x = 'HeartDiseaseorAttack', y = 'Age', data = df, palette = "rocket").set(title = "Age vs Heart disease")
 plt.xlabel("Heart Disease")
 plt.ylabel("Age (in years)")
+
+#Fraction of values with heart disease 
+print("Percentage of people with no heart disease: ", (len(df[df['HeartDiseaseorAttack'] == 0])/len(df))*100)
+print("Percentage of people with a heart disease: ",(len(df[df['HeartDiseaseorAttack'] == 1])/len(df))*100)
 
 
 #%% Does having high BP have an effect on heart disease?
