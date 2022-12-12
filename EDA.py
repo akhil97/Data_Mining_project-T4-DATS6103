@@ -49,7 +49,7 @@ print("Maximum age:", max(df['Age']))
 
 # Distribution of Age
 fig, axes = plt.subplots(2, figsize=(20, 30))
-sns.histplot(ax = axes[0] ,data = df, x='Age')
+sns.histplot(ax = axes[0] ,data = df, x='Age', palette = "rocket")
 plt.xlabel("Age (in years)")
 plt.ylabel("Count")
 
@@ -77,7 +77,7 @@ my_crosstab = pd.crosstab(index=df["HeartDiseaseorAttack"],
 print(my_crosstab)
 
 # Catplot for HighBP vs Heart Disease
-sns.catplot(x='HighBP', hue='HeartDiseaseorAttack', data=df, kind='count')
+sns.catplot(x='HighBP', hue='HeartDiseaseorAttack', data=df, kind='count', palette = "rocket")
 plt.title("HighBP vs Heart Disease")
 
 # %% Does heavy alcohol consumption cause heart attack or disease?
@@ -95,17 +95,15 @@ print(alcohol_freq)
 
 # Countplot for feature heavy alcohol consumption
 sns.countplot(x = df["HvyAlcoholConsump"], 
-              data = df).set(title = "Countplot of feature HvyAlcoholConsump")
+              data = df, palette = "rocket").set(title = "Countplot of feature HvyAlcoholConsump")
 
 # catplot for HvyAlcoholConsump vs HeartDiseaseorAttack
 sns.catplot(x = "HvyAlcoholConsump",
             hue = "HeartDiseaseorAttack",
             data = df,
-            kind = "count")
+            kind = "count", palette = "rocket")
 plt.title("HvyAlcoholConsump vs HeartDiseaseorAttack")
 
-
-#%%%[markdown]
 # From all the above information we can see that people who consume alcohol heavily and have a heart attack are only 848 through out the dataset which clearly indicates that the dataset is imbalanced.
 
 #%%
@@ -144,15 +142,13 @@ income_freq = pd.crosstab(index = df["HeartDiseaseorAttack"],
                             margins = True)
 print(income_freq)
 
-# catplot for HvyAlcoholConsump vs HeartDiseaseorAttack
+# catplot for Income vs HeartDiseaseorAttack
 sns.catplot(x = "Income",
             hue = "HeartDiseaseorAttack",
             data = df,
-            kind = "count")
+            kind = "count", palette = "rocket")
 plt.title("Income vs HeartDiseaseorAttack")
 
-
-#%%
 # Checking to see if Heavy alcohol consumption has an impact on income
 sns.countplot(data = df, 
               x = "HvyAlcoholConsump", 
@@ -160,7 +156,6 @@ sns.countplot(data = df,
              palette = "rocket")
 
 # %%
-
 #How BMI can affect the health of the heart or heart condition? 
 
 bmi_freq = pd.crosstab(index = df["HeartDiseaseorAttack"],
@@ -169,7 +164,7 @@ bmi_freq = pd.crosstab(index = df["HeartDiseaseorAttack"],
 print(bmi_freq)
 
 #Histogram for the BMI vs HeartDiseaseorAttack
-sns.histplot(data = df, x='BMI', hue='HeartDiseaseorAttack', multiple="stack", binwidth=3)
+sns.histplot(data = df, x='BMI', hue='HeartDiseaseorAttack', multiple="stack", binwidth=3, palette = "rocket")
 
 #Histogram for the BMI vs HeartDiseaseorAttack based on gender
 fig = px.histogram(df, x="BMI", 
@@ -189,7 +184,7 @@ print("Percentage of people who do not eat fruits: ", (len(df[df['Fruits'] == 0]
 print("Percentage of people who do eat fruits: ",(len(df[df['Fruits'] == 1])/len(df))*100)
 
 #Histogram for Fruits vs HeartDiseaseorAttack
-sns.catplot(x='Fruits', hue='HeartDiseaseorAttack', data=df, kind='count')
+sns.catplot(x='Fruits', hue='HeartDiseaseorAttack', data=df, kind='count', palette = "rocket")
 plt.title("Consumption of Fruits vs Heart Disease")
 
 #Veggies :-
@@ -202,7 +197,7 @@ print("Percentage of people who do not eat veggies: ", (len(df[df['Veggies'] == 
 print("Percentage of people who do eat veggies: ",(len(df[df['Veggies'] == 1])/len(df))*100)
 
 #Histogram for Veggies vs HeartDiseaseorAttack
-sns.catplot(x='Veggies', hue='HeartDiseaseorAttack', data=df, kind='count')
+sns.catplot(x='Veggies', hue='HeartDiseaseorAttack', data=df, kind='count', palette = "rocket")
 plt.title("Consumption of Veggies vs Heart Disease")
 
 #Histogram to check how the consumption of Fruits and Veggies affect the BMI :-
