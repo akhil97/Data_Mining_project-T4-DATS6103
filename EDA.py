@@ -83,10 +83,6 @@ plt.title("HighBP vs Heart Disease")
 # %% Does heavy alcohol consumption cause heart attack or disease?
 print("The unique values under Heavy Alcohol Consumption are:", df['HvyAlcoholConsump'].unique().tolist())
 
-# Countplot for feature heavy alcohol consumption
-sns.countplot(x = df["HvyAlcoholConsump"], 
-              data = df).set(title = "Countplot of feature HvyAlcoholConsump")
-
 # Fraction of the values related to the feature heavy alcohol consumption
 print("Percentage of people who do not consume alcohol hevaily: ", (len(df[df['HvyAlcoholConsump'] == 0])/len(df))*100)
 print("Percentage of people who do consume alcohol heavily: ",(len(df[df['HvyAlcoholConsump'] == 1])/len(df))*100)
@@ -96,6 +92,10 @@ alcohol_freq = pd.crosstab(index = df["HeartDiseaseorAttack"],
                             columns = df["HvyAlcoholConsump"],
                             margins = True)
 print(alcohol_freq)
+
+# Countplot for feature heavy alcohol consumption
+sns.countplot(x = df["HvyAlcoholConsump"], 
+              data = df).set(title = "Countplot of feature HvyAlcoholConsump")
 
 # catplot for HvyAlcoholConsump vs HeartDiseaseorAttack
 sns.catplot(x = "HvyAlcoholConsump",
