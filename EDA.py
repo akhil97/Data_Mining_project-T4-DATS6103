@@ -49,11 +49,11 @@ print("Maximum age:", max(df['Age']))
 
 # Distribution of Age
 fig, axes = plt.subplots(2, figsize=(20, 30))
-sns.histplot(ax = axes[0] ,data = df, x='Age', palette = "rocket")
-plt.xlabel("Age (in years)")
-plt.ylabel("Count")
+sns.countplot(ax = axes[0], x = df["Age"], 
+              data = df,
+             palette = "rocket").set(title = "Countplot of feature Age")
 
-# Barplot of Age vs Heart Disease
+# Boxplot of Age vs Heart Disease
 sns.boxplot(ax = axes[1], x = 'HeartDiseaseorAttack', y = 'Age', data = df, palette = "rocket").set(title = "Age vs Heart disease")
 plt.xlabel("Heart Disease")
 plt.ylabel("Age (in years)")
