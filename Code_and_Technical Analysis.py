@@ -169,8 +169,8 @@ print("Unique values present in diabetes: ",df["Diabetes"].unique())
 
 # Number of people within each category of diabetes
 print("Number of people in diabetes group 0", df["Diabetes"].value_counts()[0])
-print("Number of people in diabetes group 2", df["Diabetes"].value_counts()[1])
-print("Number of people in diabetes group 3", df["Diabetes"].value_counts()[2])
+print("Number of people in diabetes group 1", df["Diabetes"].value_counts()[1])
+print("Number of people in diabetes group 2", df["Diabetes"].value_counts()[2])
 
 # Countplot for each group in diabetes
 sns.countplot(x = df["Diabetes"],
@@ -222,14 +222,16 @@ print("Number of people in heavy alcohol consumption group 1: ", df["HvyAlcoholC
 # Countplot for heavy alcohol consumption
 sns.countplot(x = df["HvyAlcoholConsump"],
             data = df, palette = "rocket")
+plt.title("Distribution of heavy alcohol consumption")
+plt.xlabel("Heavy alcohol consumption")
+plt.ylabel("Count")
 
 # %%
 # HeartDiseaseorAttack and HvyAlcoholConsump
 sns.catplot(x = "HeartDiseaseorAttack", hue="HvyAlcoholConsump", 
             data=df, kind="count", palette = "rocket")
-plt.title("HeartDiseaseorAttack and HvyAlcoholConsump")
+plt.title("Heart disease or attack and Heavy alcohol consumption")
 plt.xlabel("Heart Disease or Attack")
-plt.ylabel("Heavy Alcohol Consumption")
 
 #%%
 # ttest of heart disease for different levels of alcohol consumption
