@@ -475,7 +475,6 @@ rp.ttest(group1= df["HeartDiseaseorAttack"][df["HighChol"] == 0], group1_name= "
 
 #%%[markdown]
 ### Section - 2
-## Imbalanced dataset
 # Data Pre-processing
 
 # %%
@@ -529,6 +528,7 @@ df.info()
 #%%[markdown]
 ### Section - 3
 ## Modeling
+## Imbalanced dataset
 # Initially on validation data and later on test data.
 
 # %%
@@ -913,3 +913,382 @@ print('Bias: %.3f' % bias)
 print('Variance: %.3f' % var)
 
 #%%[markdown]
+## Modeling
+## Balanced dataset
+# Initially on validation data and later on test data.
+
+#%%[markdown]
+## Balancing Technique - SMOTE
+
+#%%
+# import SMOTE and other over-sampling techniques
+from collections import Counter
+# pip install imblearn
+from imblearn.over_sampling import SMOTE
+
+#%%
+# Separating the target feature from other features
+X = df.iloc[:,1:]
+y = df.iloc[:,0]
+
+#%%
+# Split train-test data
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state = 42)
+X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size = 0.25, random_state = 42)
+
+# summarize class distribution
+print("Before oversampling: ",Counter(y_train))
+
+# define oversampling strategy
+SMOTE = SMOTE()
+
+# fit and apply the transform
+X_train_SMOTE, y_train_SMOTE = SMOTE.fit_resample(X_train, y_train)
+
+# summarize class distribution
+print("After oversampling: ", Counter(y_train_SMOTE))
+
+#%%
+resampled_df = pd.concat([X_train_SMOTE, y_train_SMOTE], axis = 1)
+print("Information of the dataset after balancing: ",resampled_df.info())
+
+#%%
+# Target variable distribution after balancing the data
+sns.countplot(x = resampled_df["HeartDiseaseorAttack"],
+             palette = "rocket").set(title = "Count plot of the target variable HeartDiseaseorAttack after balancing.")
+
+#%%[markdown]
+### Naive Bayes
+
+#%%
+# Naive Bayes
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import classification_report
+Gnb = GaussianNB()
+Gnb.fit(X_train_SMOTE, y_train_SMOTE)
+
+gnb_ypred_train = Gnb.predict(X_train_SMOTE)
+gnb_ypred_valid = Gnb.predict(X_valid)
+
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, gnb_ypred_train))
+
+print("\n\n Validation Results:\n")
+print(classification_report(y_valid, gnb_ypred_valid))
+
+print("Naive Bayes Classifier Accuracy: ",accuracy_score(y_valid, gnb_ypred_valid))
+
+#%%
+# ROC AUC curve
+gnb_tpr, gnb_fpr, gnb_th = roc_curve(y_valid, Gnb.predict(X_valid))
+plt.plot(gnb_tpr,gnb_fpr)
+print("The AUC value is: ", roc_auc_score(y_valid, Gnb.predict(X_valid)))
+plt.title("ROC curve for Naive Bayes Classifier")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+from sklearn.metrics import confusion_matrix 
+print("Confusion Matrix for Naive Bayes Classifier", confusion_matrix(y_valid, gnb_ypred_valid))
+
+#%%[markdown]
+### Logistic Regression
+
+#%%
+# LogisticRegression
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression()
+lr.fit(X_train_SMOTE, y_train_SMOTE)
+
+lr_ypred_train = lr.predict(X_train_SMOTE)
+lr_ypred_valid = lr.predict(X_valid)
+
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, lr_ypred_train))
+
+print("\n\n Validation Results:\n")
+print(classification_report(y_valid, lr_ypred_valid))
+
+print("Logistic Regression Accuracy is:", accuracy_score(y_valid, lr_ypred_valid))
+
+#%%
+# ROC AUC curve 
+lr_tpr, lr_fpr, lr_th = roc_curve(y_valid, lr.predict(X_valid))
+plt.plot(lr_tpr,lr_fpr)
+print("The AUC value is: ", roc_auc_score(y_valid, lr.predict(X_valid)))
+plt.title("ROC curve for LogisticRegression")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+print("Confusion Matrix for Decision Tree Classifier", confusion_matrix(y_valid, lr_ypred_valid))
+
+#%%[markdown]
+### Decision Tree Classifier
+# Decision Tree Classifier
+from sklearn.tree import DecisionTreeClassifier
+dtc = DecisionTreeClassifier(max_depth=3, random_state=1)
+dtc.fit(X_train_SMOTE,y_train_SMOTE)
+
+dtc_ypred_train = dtc.predict(X_train_SMOTE)
+dtc_ypred_valid = dtc.predict(X_valid)
+
+# Evaluate test-set accuracy
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, dtc_ypred_train))
+
+print("\n\n Validation Results:\n")
+print(classification_report(y_valid, dtc_ypred_valid))
+
+print("Decision Tree Accuracy:", accuracy_score(y_valid, dtc_ypred_valid))
+
+#%%
+# ROC AUC curve
+dtc_tpr, dtc_fpr, dtc_th = roc_curve(y_valid, dtc_ypred_valid)
+plt.plot(dtc_tpr,dtc_fpr)
+print("The AUC value is: ", roc_auc_score(y_valid, dtc_ypred_valid))
+plt.title("ROC curve for DecisionTree Classifier")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+print("Confusion Matrix for Decision Tree Classifier", confusion_matrix(y_valid, dtc_ypred_valid))
+
+#%%[markdown]
+### Random Forest Classifier
+# RandomForest
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+rs = RandomForestClassifier(random_state = 11, n_jobs = -1, max_depth=3)
+rs.fit(X_train_SMOTE, y_train_SMOTE)
+
+rs_ypred_train = rs.predict(X_train_SMOTE)
+rs_ypred_valid = rs.predict(X_valid)
+
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, rs_ypred_train))
+
+print("\n\n Validation Results:\n")
+print(classification_report(y_valid, rs_ypred_valid))
+
+print("RandomForest Accuracy:", accuracy_score(y_valid, rs_ypred_valid))
+
+#%%
+# ROC AUC curve
+rs_tpr, rs_fpr, rs_th = roc_curve(y_valid, rs_ypred_valid)
+plt.plot(rs_tpr,rs_fpr)
+print("The AUC value is: ", roc_auc_score(y_valid, rs_ypred_valid))
+plt.title("ROC curve for RandomForest")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+print("Confusion Matrix for Random Forest", confusion_matrix(y_valid, rs_ypred_valid))
+
+#%%[markdown]
+### XGBoost Classifier
+
+#%%
+#XGBoost Classifier
+from xgboost import XGBClassifier
+xgbc = XGBClassifier()
+xgbc.fit(X_train_SMOTE, y_train_SMOTE)
+
+xgbc_ypred_train = xgbc.predict(X_train_SMOTE)
+xgbc_ypred_valid = xgbc.predict(X_valid)
+
+# Evaluate test-set accuracy
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, xgbc_ypred_train))
+
+print("\n\n Validation Results:\n")
+print(classification_report(y_valid, xgbc_ypred_valid))
+
+print("XGBoost Accuracy:", accuracy_score(y_valid, xgbc_ypred_valid))
+
+#%%
+# ROC AUC curve
+xgbc_tpr, xgbc_fpr, xgbc_th = roc_curve(y_valid, xgbc_ypred_valid)
+plt.plot(xgbc_tpr, xgbc_fpr)
+print("The AUC value is: ", roc_auc_score(y_valid, xgbc_ypred_valid))
+plt.title("ROC curve for XGBoost")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+print("Confusion Matrix for XGBoost", confusion_matrix(y_valid, xgbc_ypred_valid))
+
+#%%[markdown]
+### Modeling on Testing data
+
+#%%[markdown]
+### Naive Bayes
+
+#%%
+# Naive Bayes
+
+gnb_ypred_test = Gnb.predict(X_test)
+
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, gnb_ypred_train))
+
+print("\n\n Testing Results:\n")
+print(classification_report(y_test, gnb_ypred_test))
+
+print("Naive Bayes Classifier Accuracy for testing data: ",accuracy_score(y_test, gnb_ypred_test))
+
+#%%
+# ROC AUC curve
+gnb_tpr_test, gnb_fpr_test, gnb_th_test = roc_curve(y_test, Gnb.predict(X_test))
+plt.plot(gnb_tpr_test,gnb_fpr_test)
+print("The AUC value is: ", roc_auc_score(y_test, Gnb.predict(X_test)))
+plt.title("ROC curve for Naive Bayes Classifier")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+from sklearn.metrics import confusion_matrix 
+print("Confusion Matrix for Naive Bayes Classifier", confusion_matrix(y_test, gnb_ypred_test))
+
+#%%
+# estimate bias and variance For Naive Bayes
+mse, bias, var = bias_variance_decomp(Gnb, X_train_SMOTE.values, y_train_SMOTE.values, 
+                                    X_test.values, y_test.values, loss='0-1_loss', 
+                                    num_rounds=50, random_seed=123)
+# summarize results
+print('MSE: %.3f' % mse)
+print('Bias: %.3f' % bias)
+print('Variance: %.3f' % var)
+
+#%%[markdown]
+### Logistic Regression
+
+#%%
+# LogisticRegression
+
+lr_ypred_test = lr.predict(X_test)
+
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, lr_ypred_train))
+
+print("\n\n Testing Results:\n")
+print(classification_report(y_test, lr_ypred_test))
+
+print("Logistic Regression Accuracy for Testing data:", accuracy_score(y_test, lr_ypred_test))
+
+#%%
+# ROC AUC curve 
+lr_tpr_test, lr_fpr_test, lr_th_test = roc_curve(y_test, lr.predict(X_test))
+plt.plot(lr_tpr_test,lr_fpr_test)
+print("The AUC value is: ", roc_auc_score(y_test, lr.predict(X_test)))
+plt.title("ROC curve for LogisticRegression")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+print("Confusion Matrix for Logistic Regression", confusion_matrix(y_test, lr_ypred_test))
+
+#%%
+# estimate bias and variance For Decision Tree
+mse, bias, var = bias_variance_decomp(dtc, X_train_SMOTE.values, y_train_SMOTE.values, 
+                                    X_test.values, y_test.values, loss='0-1_loss', 
+                                    num_rounds=50, random_seed=123)
+# summarize results
+print('MSE: %.3f' % mse)
+print('Bias: %.3f' % bias)
+print('Variance: %.3f' % var)
+
+#%%[markdown]
+### Random Forest Classifier
+
+#%%
+# RandomForest
+
+rs_ypred_test = rs.predict(X_test)
+
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, rs_ypred_train))
+
+print("\n\n Testing Results:\n")
+print(classification_report(y_test, rs_ypred_test))
+
+print("RandomForest Accuracy on Testing data:", accuracy_score(y_test, rs_ypred_test))
+
+#%%
+# ROC AUC curve
+rs_tpr_test, rs_fpr_test, rs_th_test = roc_curve(y_test, rs_ypred_test)
+plt.plot(rs_tpr_test, rs_fpr_test)
+print("The AUC value is: ", roc_auc_score(y_test, rs_ypred_test))
+plt.title("ROC curve for RandomForest")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+print("Confusion Matrix for Random Forest", confusion_matrix(y_test, rs_ypred_test))
+
+#%%
+# estimate bias and variance For Random Forest
+mse, bias, var = bias_variance_decomp(rs, X_train_SMOTE.values, y_train_SMOTE.values, 
+                                    X_test.values, y_test.values, loss='0-1_loss', 
+                                    num_rounds=50, random_seed=123)
+# summarize results
+print('MSE: %.3f' % mse)
+print('Bias: %.3f' % bias)
+print('Variance: %.3f' % var)
+
+#%%[markdown]
+### XGBoost Classifier
+
+#%%
+#XGBoost Classifier
+
+xgbc_ypred_test = xgbc.predict(X_test)
+
+print("Training Results:\n")
+print(classification_report(y_train_SMOTE, xgbc_ypred_train))
+
+print("\n\n Testing Results:\n")
+print(classification_report(y_test, xgbc_ypred_test))
+
+print("XGBoost Accuracy on Testing data:", accuracy_score(y_test, xgbc_ypred_test))
+
+#%%
+xgbc_tpr_test, xgbc_fpr_test, xgbc_th_test = roc_curve(y_test, xgbc_ypred_test)
+plt.plot(xgbc_tpr_test, xgbc_fpr_test)
+print("The AUC value is: ", roc_auc_score(y_test, xgbc_ypred_test))
+plt.title("ROC curve for XGBoost")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.show()
+
+#%%
+# Confusion Matrix
+print("Confusion Matrix for XGBoost", confusion_matrix(y_test, xgbc_ypred_test))
+
+#%%
+# estimate bias and variance For XGBoost
+mse, bias, var = bias_variance_decomp(xgbc, X_train_SMOTE.values, y_train_SMOTE.values, X_test.values, y_test.values, loss='0-1_loss', num_rounds=50, random_seed=123)
+# summarize results
+print('MSE: %.3f' % mse)
+print('Bias: %.3f' % bias)
+print('Variance: %.3f' % var)
+
+# %%
